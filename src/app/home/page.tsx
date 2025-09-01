@@ -10,7 +10,7 @@ export default function HomePage() {
       <div className="content-container w-full md:w-[80%] lg:w-[70%] xl:w-[50%] mx-auto">
         {/* Travel Updates Card */}
         <div className="card" style={{ height: '450px', borderRadius: '16px' }}>
-          <div className="live-header">
+          <div className="live-header" style={{ marginTop: '7px' }}>
             <div className="section-title">
               <i className="fas fa-globe"></i>
               <span>Travel Updates</span>

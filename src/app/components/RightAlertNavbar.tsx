@@ -3,6 +3,34 @@
 import { useEffect } from 'react';
 
 const RightAlertNavbar = () => {
+  // Define the openOasisUpdatesPopup function at component level so it can be used in JSX
+  const handleOasisUpdatesClick = () => {
+    const oasisPopup = document.createElement('div');
+    oasisPopup.id = 'oasisUpdatesPopup';
+    oasisPopup.className = 'popup-overlay active';
+    oasisPopup.innerHTML = `
+      <div class="popup-content">
+        <div class="popup-header">
+          <h3 class="popup-title">Oasis Updates</h3>
+          <button class="close-popup" onclick="this.closest('.popup-overlay').remove()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="popup-updates-container">
+          <p style="color: var(--gray); text-align: center; padding: 40px;">No updates available</p>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(oasisPopup);
+    
+    // Close popup when clicking outside
+    oasisPopup.addEventListener('click', function(e) {
+      if (e.target === oasisPopup) {
+        oasisPopup.remove();
+      }
+    });
+  };
+
   useEffect(() => {
     // Alerts Popup Logic
     const viewAllAlertsBtn = document.getElementById('viewAllAlerts');
@@ -142,36 +170,7 @@ const RightAlertNavbar = () => {
       }
     }
 
-    // Oasis Updates Logic
-    const oasisUpdatesSection = document.querySelector('.card:last-child');
-
-    function openOasisUpdatesPopup(e: Event) {
-      if (e) e.preventDefault();
-      const oasisPopup = document.createElement('div');
-      oasisPopup.id = 'oasisUpdatesPopup';
-      oasisPopup.className = 'popup-overlay active';
-      oasisPopup.innerHTML = `
-        <div class="popup-content">
-          <div class="popup-header">
-            <h3 class="popup-title">Oasis Updates</h3>
-            <button class="close-popup" onclick="this.closest('.popup-overlay').remove()">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <div class="popup-updates-container">
-            <p style="color: var(--gray); text-align: center; padding: 40px;">No updates available</p>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(oasisPopup);
-      
-      // Close popup when clicking outside
-      oasisPopup.addEventListener('click', function(e) {
-        if (e.target === oasisPopup) {
-          oasisPopup.remove();
-        }
-      });
-    }
+    // Note: Oasis Updates popup logic is now moved to component level
 
     // Add event listeners
     if (viewAllAlertsBtn) {
@@ -186,10 +185,7 @@ const RightAlertNavbar = () => {
     if (clearTrendingBtn) {
       clearTrendingBtn.addEventListener('click', clearTrending);
     }
-    if (oasisUpdatesSection) {
-      oasisUpdatesSection.addEventListener('click', openOasisUpdatesPopup);
-      (oasisUpdatesSection as HTMLElement).style.cursor = 'pointer';
-    }
+    // Oasis Updates now handled with React onClick handler
 
     // Cleanup function
     return () => {
@@ -205,9 +201,7 @@ const RightAlertNavbar = () => {
       if (clearTrendingBtn) {
         clearTrendingBtn.removeEventListener('click', clearTrending);
       }
-      if (oasisUpdatesSection) {
-        oasisUpdatesSection.removeEventListener('click', openOasisUpdatesPopup);
-      }
+      // Oasis Updates cleanup not needed - now handled with React onClick
     };
   }, []);
 
@@ -262,20 +256,30 @@ const RightAlertNavbar = () => {
         </div>
       </div>
       
-      <div className="card">
+      <div 
+        className="card updates-section" 
+        onClick={handleOasisUpdatesClick}
+        style={{cursor: 'pointer'}}
+      >
         <div className="live-header">
           <div className="section-title">
             <i className="fas fa-bullhorn"></i>
             <span>Oasis Updates</span>
           </div>
+          <div style={{marginLeft: 'auto', fontSize: '14px', color: 'var(--primary)'}}>
+            <i className="fas fa-chevron-right"></i>
+          </div>
         </div>
         <div className="card-content">
           <div className="updates-container">
             <p style={{color: 'var(--gray)', textAlign: 'center', padding: '20px'}}>No updates available</p>
-          </div>
+            <div style={{textAlign: 'center', marginTop: '10px', color: 'var(--primary)', fontWeight: 500}}>
+              Click to view all updates
+            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -79,6 +79,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 20px; /* Added padding here instead of in middle-content-bar */
 }
 
 /* Middle Content Bar */
@@ -92,10 +93,11 @@ body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     flex: 1;
-    padding: 20px;
+    padding: 0; /* Removed padding as it will be handled by content-container-inner */
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(0,0,0,0.03);
+    transition: none; /* Ensure no transition is applied */
 }
 
 .middle-content-bar::-webkit-scrollbar {
@@ -952,6 +954,7 @@ textarea.form-control {
     background-color: rgba(248, 249, 250, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0,0,0,0.1), 0 2px 5px rgba(0,0,0,0.12);
+    border-radius: 16px;
 }
 
 /* Mobile responsiveness */

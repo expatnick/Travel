@@ -1,6 +1,6 @@
 const Feed = () => {
   return (
-    <div className=''>Feed</div>
+    <div className='flex-grow'>Feed</div>
   );
 }
 
